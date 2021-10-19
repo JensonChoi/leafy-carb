@@ -56,8 +56,12 @@ def starting_train(
         # Loop over each batch in the dataset
         for i, batch in enumerate(train_loader):
             print(f"\rIteration {i + 1} of {len(train_loader)} ...", end="")
-            # make prediction and compute loss
             images, labels = batch
+            # Move inputs over to GPU
+            images = images.to(device)
+            labels = labels.to(device)
+
+            # make prediction and compute loss
             pred = model(images)
             loss = loss_fn(pred, labels)
 
@@ -82,14 +86,14 @@ def starting_train(
                     writer.add_scalar('Accuracy/train', train_accuracy, epoch)
 
                 # reset train_loss, n_correct, count
-                train_loss, training_accuracy = 0, 0
+                train_loss, n_correct = 0, 0
                 count = 0
 
                 # TODO:
                 # Compute validation loss and accuracy.
                 # Log the results to Tensorboard.
                 # Don't forget to turn off gradient calculations!
-                val_loss, val_acc = evaluate(val_loader, model, loss_fn)
+                val_loss, val_acc = evaluate(val_loader, model, loss_fn, device)
                 if writer:
                     writer.add_scalar('Loss/validation', val_loss, epoch)
                     writer.add_scalar('Accuracy/validation', val_acc, epoch)
@@ -111,7 +115,6 @@ def compute_accuracy(outputs, labels):
     Example output:
         0.75
     """
-
     n_correct = (torch.round(outputs) == labels).sum().item()
     n_total = len(outputs)
     return n_correct / n_total
@@ -123,7 +126,7 @@ def compute_ncorrect(outputs, labels):
     n_correct = (outputs == labels).sum().item()
     return n_correct
 
-def evaluate(val_loader, model, loss_fn):
+def evaluate(val_loader, model, loss_fn, device):
     """
     Computes the loss and accuracy of a model on the validation dataset.
 
@@ -135,6 +138,10 @@ def evaluate(val_loader, model, loss_fn):
     for i, batch in enumerate(val_loader):
         # make prediction and compute loss
         images, labels = batch
+        # Move inputs over to GPU
+        images = images.to(device)
+        labels = labels.to(device)
+
         pred = model(images)
         total_loss += loss_fn(pred, labels)
         n_correct += compute_ncorrect(torch.argmax(pred, dim=1), labels)
