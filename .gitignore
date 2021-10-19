@@ -3,3 +3,5 @@ __pycache__
 
 training_summaries
 cassava-leaf-disease-classification/
+.DS_Store
+
