@@ -63,10 +63,10 @@ def starting_train(
 
             # make prediction and compute loss
             pred = model(images)
-            loss = loss_fn(pred, labels)
+            loss = loss_fn(pred, labels).mean()
 
             # update train_loss, n_correct, count
-            train_loss += loss
+            train_loss += loss.item()
             n_correct += compute_ncorrect(torch.argmax(pred, dim=1), labels)
             count += len(labels)
 
@@ -143,7 +143,7 @@ def evaluate(val_loader, model, loss_fn, device):
         labels = labels.to(device)
 
         pred = model(images)
-        total_loss += loss_fn(pred, labels)
+        total_loss += loss_fn(pred, labels).mean().item()
         n_correct += compute_ncorrect(torch.argmax(pred, dim=1), labels)
         count += len(labels)
 
