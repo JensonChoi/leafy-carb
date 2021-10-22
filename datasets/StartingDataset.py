@@ -19,7 +19,7 @@ class StartingDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         image_arr = (self.table.iloc[index].to_numpy())
         image_name = image_arr[0]
-        print(image_name)
+        #print(image_name)
 
         image = Image.open('cassava-leaf-disease-classification/train_images/'+image_name)
         
