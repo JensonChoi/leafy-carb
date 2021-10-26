@@ -13,8 +13,9 @@ class StartingDataset(torch.utils.data.Dataset):
     Dataset that contains 100000 3x224x224 black images (all zeros).
     """
 
-    def __init__(self):
-        self.table = pd.read_csv('cassava-leaf-disease-classification/train.csv')
+    def __init__(self, df):
+        # df is of type pd.DataFrame
+        self.table = df
 
     def __getitem__(self, index):
         image_arr = (self.table.iloc[index].to_numpy())
