@@ -32,13 +32,14 @@ class StartingDataset(torch.utils.data.Dataset):
         
         transformation = transforms.ToTensor()
         image = transformation(image)
-        
+        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         #print(image.shape)
         #plt.imshow(image.permute(1, 2, 0))
         #plt.show()
         #print(image)
         
         image = torch.reshape(image, (3, 224, 224))
+        image = normalize(image)
         return image, image_arr[1]
 
     def __len__(self):
