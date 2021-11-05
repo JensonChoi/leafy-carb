@@ -18,6 +18,7 @@ class StartingNetwork(torch.nn.Module):
     def forward(self, x):
         with torch.no_grad():
             features = self.model(x)
+        x = torch.squeeze(x)
         x = self.bnfc1(nn.ReLU(self.fc1(features)))
         x = self.fc2(x)
         return x
