@@ -11,6 +11,12 @@ class StartingNetwork(torch.nn.Module):
         super().__init__()
         tempmodel = torch.hub.load('pytorch/vision:v0.9.0', 'resnet18', pretrained=True)
         self.model = torch.nn.Sequential(*(list(tempmodel.children())[:-1]))
+        try: # Check if GPU is available
+            device = torch.device('cuda')
+            (self.model).to(device)
+        except:
+            print("Couldnt move model to GPU :(")
+          
         self.fc1 = nn.Linear(512, 512)
         self.bnfc1 = nn.BatchNorm1d(512)
         self.fc2 = nn.Linear(512, 5)
