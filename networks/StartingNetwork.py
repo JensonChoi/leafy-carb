@@ -19,7 +19,7 @@ class StartingNetwork(torch.nn.Module):
 
     def forward(self, x):
         with torch.no_grad():
-            x = self.model(x)
+            x = self.resnet(x)
         x = torch.squeeze(x)  # flatten
         x = self.relu(self.fc1(x))
         x = self.bnfc1(x)
