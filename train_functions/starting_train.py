@@ -37,6 +37,7 @@ def starting_train(
         device = torch.device('cpu')
     # Move the model to the GPU
     model.to(device)
+    (model.resnet).to(device)
 
     # Initalize optimizer (for gradient descent) and loss function
     optimizer = optim.Adam(model.parameters())
