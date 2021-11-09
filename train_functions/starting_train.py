@@ -5,7 +5,7 @@ import torch.utils.tensorboard
 
 
 def starting_train(
-    train_dataset, val_dataset, model, hyperparameters, n_eval, summary_path
+    train_dataset, val_dataset, model, hyperparameters, n_eval, summary_path, weight_decay
 ):
     """
     Trains and evaluates a model.
@@ -40,7 +40,7 @@ def starting_train(
     (model.resnet).to(device)
 
     # Initalize optimizer (for gradient descent) and loss function
-    optimizer = optim.Adam(model.parameters())
+    optimizer = optim.Adam(model.parameters(), weight_decay=weight_decay)
     loss_fn = nn.CrossEntropyLoss()
 
     # Initialize summary writer (for logging)
