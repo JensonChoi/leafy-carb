@@ -39,7 +39,18 @@ class StartingDataset(torch.utils.data.Dataset):
         #print(image)
         
         image = torch.reshape(image, (3, 224, 224))
+
+        rand = torch.randint(low=0, high=3, size=(1,))
+        if rand.item() == 0:
+            transformation = transforms.RandomVerticalFlip()
+        elif rand.item() == 1:
+            transformation = transforms.RandomHorizontalFlip()
+        else:
+            transformation = transforms.GaussianBlur(3)
+
+        image = transformation(image)
         image = normalize(image)
+
         return image, image_arr[1]
 
     def __len__(self):
