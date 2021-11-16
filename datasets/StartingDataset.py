@@ -49,7 +49,7 @@ class StartingDataset(torch.utils.data.Dataset):
         elif aug == 3:
             transformation = transforms.GaussianBlur(3)
         elif aug == 4:
-            transformation = transforms.RandomRotation(90)
+            transformation = transforms.RandomRotation((90, 90))
         # apply transformation if augmentation is required
         if aug != 0:
             image = transformation(image)
