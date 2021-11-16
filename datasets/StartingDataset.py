@@ -22,6 +22,7 @@ class StartingDataset(torch.utils.data.Dataset):
         image_arr = (self.table.iloc[index].to_numpy())
         image_name = image_arr[0]
         #print(image_name)
+        aug = image_arr[2]
 
         image = Image.open(self.path+'cassava-leaf-disease-classification/train_images/'+image_name)
         
@@ -40,6 +41,19 @@ class StartingDataset(torch.utils.data.Dataset):
         #print(image)
         
         image = torch.reshape(image, (3, 224, 224))
+        # pick the right transformation
+        if aug == 1:
+            transformation = transforms.RandomHorizontalFlip(p=1)
+        elif aug == 2:
+            transformation = transforms.RandomVerticalFlip(p=1)
+        elif aug == 3:
+            transformation = transforms.GaussianBlur(3)
+        elif aug == 4:
+            transformation = transforms.RandomRotation(90)
+        # apply transformation if augmentation is required
+        if aug != 0:
+            image = transformation(image)
+
         image = normalize(image)
         return image, image_arr[1]
 
