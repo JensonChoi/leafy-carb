@@ -13,16 +13,17 @@ class StartingDataset(torch.utils.data.Dataset):
     Dataset that contains 100000 3x224x224 black images (all zeros).
     """
 
-    def __init__(self, df):
+    def __init__(self, df, path):
         # df is of type pd.DataFrame
         self.table = df
+        self.path = path
 
     def __getitem__(self, index):
         image_arr = (self.table.iloc[index].to_numpy())
         image_name = image_arr[0]
         #print(image_name)
 
-        image = Image.open('cassava-leaf-disease-classification/train_images/'+image_name)
+        image = Image.open(self.path+'cassava-leaf-disease-classification/train_images/'+image_name)
         
         #sqrWidth = np.ceil(np.sqrt(image.size[0]*image.size[1])).astype(int)
         
