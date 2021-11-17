@@ -7,9 +7,9 @@ class StartingNetwork(torch.nn.Module):
     Basic logistic regression on 224x224x3 images.
     """
 
-    def __init__(self, dropout_pct=0):
+    def __init__(self, dropout_pct=0, model_name='resnet18'):
         super().__init__()
-        tempmodel = torch.hub.load('pytorch/vision:v0.9.0', 'resnet18', pretrained=True)
+        tempmodel = torch.hub.load('pytorch/vision:v0.9.0', model_name, pretrained=True)
         self.resnet = torch.nn.Sequential(*(list(tempmodel.children())[:-1]))
           
         self.fc1 = nn.Linear(512, 512)
