@@ -13,10 +13,11 @@ class StartingDataset(torch.utils.data.Dataset):
     Dataset that contains 100000 3x224x224 black images (all zeros).
     """
 
-    def __init__(self, df, path):
+    def __init__(self, df, path, is_train):
         # df is of type pd.DataFrame
         self.table = df
         self.path = path
+        self.is_train = is_train
 
     def __getitem__(self, index):
         image_arr = (self.table.iloc[index].to_numpy())
@@ -42,17 +43,18 @@ class StartingDataset(torch.utils.data.Dataset):
         
         image = torch.reshape(image, (3, 224, 224))
         # pick the right transformation
-        if aug == 1:
-            transformation = transforms.RandomHorizontalFlip(p=1)
-        elif aug == 2:
-            transformation = transforms.RandomVerticalFlip(p=1)
-        elif aug == 3:
-            transformation = transforms.GaussianBlur(3)
-        elif aug == 4:
-            transformation = transforms.RandomRotation((90, 90))
-        # apply transformation if augmentation is required
-        if aug != 0:
-            image = transformation(image)
+        if self.is_train:
+            if aug == 1:
+                transformation = transforms.RandomHorizontalFlip(p=1)
+            elif aug == 2:
+                transformation = transforms.RandomVerticalFlip(p=1)
+            elif aug == 3:
+                transformation = transforms.GaussianBlur(3)
+            elif aug == 4:
+                transformation = transforms.RandomRotation((90, 90))
+            # apply transformation if augmentation is required
+            if aug != 0:
+                image = transformation(image)
 
         image = normalize(image)
         return image, image_arr[1]
