@@ -29,7 +29,7 @@ class StartingDataset(torch.utils.data.Dataset):
         
         #sqrWidth = np.ceil(np.sqrt(image.size[0]*image.size[1])).astype(int)
         
-        image = image.resize((224, 224))
+        image = image.resize((448, 448))
         
         #print(image)
         
@@ -41,7 +41,7 @@ class StartingDataset(torch.utils.data.Dataset):
         #plt.show()
         #print(image)
         
-        image = torch.reshape(image, (3, 224, 224))
+        image = torch.reshape(image, (3, 448, 448))
         # pick the right transformation
         if self.is_train:
             if aug == 1:
