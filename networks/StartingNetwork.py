@@ -9,10 +9,10 @@ class StartingNetwork(torch.nn.Module):
 
     def __init__(self, dropout_pct=0, model_name='resnet18'):
         super().__init__()
-        self.conv = nn.Conv2d(3, 3, kernel_size=2, stride=2)
+        self.conv = nn.Conv2d(3, 3, kernel_size=7, stride=2, padding=3)
         tempmodel = torch.hub.load('pytorch/vision:v0.9.0', model_name, pretrained=True)
         self.resnet = torch.nn.Sequential(*(list(tempmodel.children())[:-1]))
-          
+        
         self.fc1 = nn.Linear(512, 512)
         self.relu = nn.ReLU()
         self.dropout = nn.Dropout(p=dropout_pct)
