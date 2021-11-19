@@ -9,7 +9,7 @@ class StartingNetwork(torch.nn.Module):
 
     def __init__(self, dropout_pct=0, model_name='resnet18'):
         super().__init__()
-        self.conv = nn.Conv2D(3, 3, stride=2)
+        self.conv = nn.Conv2d(3, 3, stride=2)
         tempmodel = torch.hub.load('pytorch/vision:v0.9.0', model_name, pretrained=True)
         self.resnet = torch.nn.Sequential(*(list(tempmodel.children())[:-1]))
           
